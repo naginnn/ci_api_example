@@ -46,8 +46,7 @@ class Base(dict):
                 if isinstance(value, list):
                     for val in value:
                         if isinstance(val, dict):
-                            for key, value in attrs.items():
-                                setattr(self, key, type('', (dict, ), {attrs[key]}))
+                            setattr(self, key, val)
                         else:
                             setattr(self, key, value)
                 else:
@@ -92,4 +91,4 @@ if __name__ == '__main__':
     # MyShinyClass.__setattr__({"name": "lala"})
     # print(MyShinyClass.name)
     s = Base(w)
-    print(s.dictkey)
+    print(s.dictkey.inner_dict)
