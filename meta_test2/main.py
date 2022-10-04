@@ -38,19 +38,26 @@ class customtype(type):  ## Определить новый метакласс
 
 class Base(dict):
     def __init__(self, attrs):
-        temp = []
         if isinstance(attrs, dict):
             for key, value in attrs.items():
                 if isinstance(value, dict):
                     setattr(self, key, Base(value))
-                if isinstance(value, list):
-                    for val in value:
-                        if isinstance(val, dict):
-                            setattr(self, key, val)
-                        else:
-                            setattr(self, key, value)
                 else:
                     setattr(self, key, value)
+    # def __init__(self, attrs):
+    #     temp = []
+    #     if isinstance(attrs, dict):
+    #         for key, value in attrs.items():
+    #             if isinstance(value, dict):
+    #                 setattr(self, key, Base(value))
+    #             if isinstance(value, list):
+    #                 for val in value:
+    #                     if isinstance(val, dict):
+    #                         setattr(self, key, val)
+    #                     else:
+    #                         setattr(self, key, value)
+    #             else:
+    #                 setattr(self, key, value)
 
     def __getattr__(self, attr):
         return self.get(attr)
@@ -82,13 +89,47 @@ class Base(dict):
 
 
 if __name__ == '__main__':
+    ambari_json = {
+  "items" : [
+    {
+      "href" : "http://localhost:8080/api/v1/clusters/cc/configurations/service_config_versions?service_name=HDFS&service_config_version=2",
+      "configurations" : [
+        {
+          "Config" : {
+            "cluster_name" : "HDP",
+            "stack_id" : "HDP-2.2"
+          },
+          "type" : "core-site",
+          "tag" : "version2",
+          "version" : 2,
+          "properties" : {
+                "security.inter.datanode.protocol.acl" : "*",
+                "security.refresh.usertogroups.mappings.protocol.acl" : "hadoop",
+                "security.client.datanode.protocol.acl" : "*",
+                "security.admin.operations.protocol.acl" : "hadoop",
+                "security.inter.tracker.protocol.acl" : "*",
+                "security.datanode.protocol.acl" : "*",
+                "security.job.client.protocol.acl" : "*",
+                "security.client.protocol.acl" : "*",
+                "security.job.task.protocol.acl" : "*",
+                "security.refresh.policy.protocol.acl" : "hadoop",
+                "security.namenode.protocol.acl" : "*"
+          },
+          "properties_attributes" : { }
+        }
+      ]
+    }
+      ]
+    }
+    print(json.dumps(ambari_json))
     # w = {"Person": {"name": "Tom", "age": 20, "childrens": [{"name": "Vasya"}, {"name": "Sergey"}]}}
-    w = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [{"inner_dict": "prikol"}]}
-    d = [{"name": "Anton", "age": 20}, {"name": "Sergey", "age": 32}]
+    # w = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [{"inner_dict": "prikol"}]}
+    # d = [{"name": "Anton", "age": 20}, {"name": "Sergey", "age": 32}]
     # d = {"name": "Anton", "age": 20}
     # print(w)
     # MyShinyClass = type('', (), w)()
     # MyShinyClass.__setattr__({"name": "lala"})
     # print(MyShinyClass.name)
-    s = Base(w)
-    print(s.dictkey.inner_dict)
+
+    # s = Base(w)
+    # print(s.dictkey.inner_dict)
