@@ -27,21 +27,32 @@ class Base(dict):
     def type_coerce_attrs(self):
         pass
 
-def type_coerce(obj, objType):
-    if isinstance(obj, objType):
+def type_coerce_dict(obj):
+    if isinstance(obj, dict):
         ret = BaseChild(obj)
     else:
         ret = obj
     return ret
 
-def type_coerce_list(obj, objType):
+def type_coerce_list(obj):
     if isinstance(obj, list):
         ret = []
         for entry in obj:
-            ret.append(type_coerce(entry, dict))
+            ret.append(type_coerce_dict(entry))
     else:
         ret = None
     return ret
+
+def type_coerce(obj, attrs):
+    if isinstance(attrs, dict):
+        for key, value in attrs.items():
+            if isinstance(value, str):
+                setattr(obj, key.replace('.', '_'), value)
+            elif isinstance(value, dict):
+                setattr(obj, key.replace('.', '_'), BaseChild(value))
+            elif isinstance(value, list):
+                setattr(obj, key.replace('.', '_'), type_coerce_list(value))
+
 class BaseChild(Base):
     def __init__(self, attrs):
         if attrs is None:
@@ -49,15 +60,7 @@ class BaseChild(Base):
 
         Base.__init__(self, attrs)
 
-        if isinstance(attrs, dict):
-            for key, value in attrs.items():
-                key.replace('.', '_')
-                if isinstance(value, str):
-                    setattr(self, key, value)
-                elif isinstance(value, dict):
-                    setattr(self, key, BaseChild(value))
-                elif isinstance(value, list):
-                    setattr(self, key, type_coerce_list(value, BaseChild))
+        type_coerce(self, attrs)
 
 
 if __name__ == '__main__':
@@ -74,17 +77,10 @@ if __name__ == '__main__':
                       "tag" : "version2",
                       "version" : 2,
                       "properties" : {
-                            "security.inter.datanode.protocol.acl" : "*",
-                            "security.refresh.usertogroups.mappings.protocol.acl" : "hadoop",
-                            "security.client.datanode.protocol.acl" : "*",
-                            "security.admin.operations.protocol.acl" : "hadoop",
-                            "security.inter.tracker.protocol.acl" : "*",
-                            "security.datanode.protocol.acl" : "*",
-                            "security.job.client.protocol.acl" : "*",
-                            "security.client.protocol.acl" : "*",
-                            "security.job.task.protocol.acl" : "*",
-                            "security.refresh.policy.protocol.acl" : "hadoop",
-                            "security.namenode.protocol.acl" : "*"
+                            "security.inter" : "*",
+                            "security.refresh" : "hadoop",
+                            "security.client" : "*",
+                            "security.admin" : "hadoop",
                       },
                       "properties_attributes" : { }
                     }
@@ -92,13 +88,14 @@ if __name__ == '__main__':
                 }
             ]
         }
-    l = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [1, 2, 3, 4, 5]}
-    d = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [{"krasava": "lala"}]}
-
-    l = BaseChild(l)
-    d = BaseChild(d)
+    # l = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [1, 2, 3, 4, 5]}
+    # d = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [{"krasava": "lala"}]}
+    #
+    # l = BaseChild(l)
+    # d = BaseChild(d)
     winner = BaseChild(attrs)
     # s = Base(attrs['items'][0]["configurations"][0])
-    print(winner.items[0].configurations[0].config.cluster_name)
+    # print(dir(winner))
+    print(winner.items[0].configurations[0].properties.security_refresh)
     # print(l.dictkey)
     # print(d.dictkey[0].krasava)
