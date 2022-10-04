@@ -22,7 +22,7 @@ class Base(dict):
         del self.__dict__[key]
 
     def __repr__(self):
-        return json.dumps(self)
+        return json.dumps(attrs)
 
     def type_coerce_attrs(self):
         pass
@@ -88,14 +88,52 @@ if __name__ == '__main__':
                 }
             ]
         }
+
+    attrs2 = {
+                  "href" : "http://localhost:8080/api/v1/clusters/cc/configurations/service_config_versions",
+                  "items" : [
+    {
+      "href" : "http://localhost:8080/api/v1/clusters/cc/configurations/service_config_versions?service_name=YARN&service_config_version=1",
+      "cluster_name" : "cc",
+      "configurations" : ["lOH"],
+      "createtime" : 1430922080177,
+      "group_id" : -1,
+      "group_name" : "default",
+      "hosts" : [ ],
+      "is_cluster_compatible" : True,
+      "is_current" : True,
+      "service_config_version" : 1,
+      "service_config_version_note" : "Initial configurations for YARN",
+      "service_name" : "YARN",
+      "stack_id" : "HDP-2.2",
+      "user" : "admin"
+    },
+    {
+      "href" : "http://localhost:8080/api/v1/clusters/cc/configurations/service_config_versions?service_name=ZOOKEEPER&service_config_version=1",
+      "cluster_name" : "cc",
+      "configurations" : [1, 2, 3, 4, 5],
+      "createtime" : 1430922080347,
+      "group_id" : -1,
+      "group_name" : "default",
+      "hosts" : [ ],
+      "is_cluster_compatible" : True,
+      "is_current" : True,
+      "service_config_version" : 1,
+      "service_config_version_note" : "Initial configurations for ZooKeeper",
+      "service_name" : "ZOOKEEPER",
+      "stack_id" : "HDP-2.2",
+      "user" : "admin"
+    }
+  ]
+}
     # l = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [1, 2, 3, 4, 5]}
     # d = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [{"krasava": "lala"}]}
     #
     # l = BaseChild(l)
     # d = BaseChild(d)
-    winner = BaseChild(attrs)
+    winner = BaseChild(attrs2)
     # s = Base(attrs['items'][0]["configurations"][0])
     # print(dir(winner))
-    print(winner.items[0].configurations[0].properties.security_refresh)
+    print(winner.items[0].configurations)
     # print(l.dictkey)
     # print(d.dictkey[0].krasava)
