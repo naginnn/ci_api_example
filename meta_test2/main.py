@@ -52,7 +52,6 @@ def type_coerce(obj, attrs):
                 setattr(obj, key.replace('.', '_'), BaseChild(value))
             elif isinstance(value, list):
                 setattr(obj, key.replace('.', '_'), type_coerce_list(value))
-
 class BaseChild(Base):
     def __init__(self, attrs):
         if attrs is None:
@@ -127,13 +126,14 @@ if __name__ == '__main__':
   ]
 }
     # l = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [1, 2, 3, 4, 5]}
-    # d = {"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [{"krasava": "lala"}]}
+    d = [{"person": {"name": "Tom", "age": 20}, "padla": "dasyka", "dictkey": [{"krasava": "lala"}]}]
     #
     # l = BaseChild(l)
-    # d = BaseChild(d)
-    winner = BaseChild(attrs2)
+    d = BaseChild(d)
+    # winner = BaseChild(attrs2)
     # s = Base(attrs['items'][0]["configurations"][0])
     # print(dir(winner))
-    print(winner.items[0].configurations)
+    print(d)
+    # пофиксить если первый элемент []
     # print(l.dictkey)
     # print(d.dictkey[0].krasava)
