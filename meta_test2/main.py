@@ -133,7 +133,7 @@ if __name__ == '__main__':
     # winner = BaseChild(attrs2)
     # s = Base(attrs['items'][0]["configurations"][0])
     # print(dir(winner))
-    print(d)
+    print(d.person.name)
     # пофиксить если первый элемент []
     # print(l.dictkey)
     # print(d.dictkey[0].krasava)

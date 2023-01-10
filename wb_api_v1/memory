@@ -1,0 +1,18 @@
+https://www.wildberries.ru/webapi/menu/main-menu-ru-ru.json
+    "id": 306,
+    "name": "Женщинам",
+    "url": "/catalog/zhenshchinam",
+    "shard": "presets/women_clothes",
+    "query": "preset=1001",
+    "landing": true,
+    "childs": [{
+        "id": 8126,
+        "parent": 306,
+        "name": "Блузки и рубашки",
+        "seo": "Женские блузки и рубашки",
+        "url": "/catalog/zhenshchinam/odezhda/bluzki-i-rubashki",
+        "shard": "bl_shirts",
+        "query": "kind=2&subject=41;184;1429"
+
+
+
